@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">QuanLyKhoHang</string>
+    <string name="open">QuanLyKhoHang</string>
+    <string name="close">QuanLyKhoHang</string>
+    <string name="login_success">Đăng nhập thành công</string>
+    <string name="login_not_success">Đăng nhập thất bại</string>
+    <string name="add_success">Thêm thành công</string>
+    <string name="add_not_success">Thêm thất bại</string>
+    <string name="delete_success">Xóa thành công</string>
+    <string name="delete_not_success">Xóa thất bại</string>
+    <string name="update_success">Sửa thành công</string>
+    <string name="update_not_success">Sửa thất bại</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
