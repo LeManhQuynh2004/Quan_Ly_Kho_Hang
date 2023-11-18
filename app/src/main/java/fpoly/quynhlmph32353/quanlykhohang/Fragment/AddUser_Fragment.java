@@ -1,11 +1,13 @@
 package fpoly.quynhlmph32353.quanlykhohang.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,25 @@ public class AddUser_Fragment extends Fragment {
     TextView tv_logout,tv_back;
     String role_value;
     int role_position;
+    public static final String TAG = "AddUser_Fragment";
 
+    //Regex String
+    private boolean isString (String str){
+        return str.matches("[a-z A-Z 0-9]+");
+    }
+    private boolean isFullName (String str){
+        return str.matches("[a-z A-Z]+");
+    }
+    //Regex Length
+    private boolean isLength(String str){
+        return str.matches(
+                "[a-z0-9_]{4,12}$");
+    }
+    private boolean isEmail(String str){
+        return str.matches(
+                "[a-zA-Z0-9_.]+@[a-zA-Z]+\\.+[a-z]+"
+        );
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,15 +59,6 @@ public class AddUser_Fragment extends Fragment {
         ed_password = view.findViewById(R.id.ed_password_add);
         ed_fullName = view.findViewById(R.id.ed_fullName_add);
         ed_email = view.findViewById(R.id.ed_email_add);
-        tv_logout = view.findViewById(R.id.tv_logout);
-        tv_back = view.findViewById(R.id.tv_back_addUser);
-        tv_logout.setOnClickListener(view1 -> {
-            Toast.makeText(getContext(), "Exit", Toast.LENGTH_SHORT).show();
-            requireActivity().finish();
-        });
-        tv_back.setOnClickListener(view1 -> {
-            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new User_Fragment()).commit();
-        });
         userDao = new UserDao(getContext());
         spinner_role = view.findViewById(R.id.spinner_role_add);
 
@@ -91,8 +102,30 @@ public class AddUser_Fragment extends Fragment {
 
     private boolean validateFrom(String strUsername, String strPassword, String strEmail, String strFullName) {
         boolean isCheck = true;
-        if (strUsername.isEmpty() || strPassword.isEmpty() || strFullName.isEmpty() || strEmail.isEmpty()) {
-            Toast.makeText(getContext(), "Vui lòng không bỏ trống", Toast.LENGTH_SHORT).show();
+        try {
+            if (strUsername.isEmpty() || strPassword.isEmpty() || strFullName.isEmpty() || strEmail.isEmpty()) {
+                Toast.makeText(getContext(), "Vui lòng không bỏ trống", Toast.LENGTH_SHORT).show();
+                isCheck = false;
+            }
+            if(!isLength(strPassword)){
+                Toast.makeText(getContext(), "Nhập sai định dạng mật khẩu", Toast.LENGTH_SHORT).show();
+                isCheck = false;
+            }
+            if(!isString(strUsername)){
+                Toast.makeText(getContext(), "Nhập sai định dạng", Toast.LENGTH_SHORT).show();
+                isCheck = false;
+            }
+            if(!isFullName(strFullName)){
+                Toast.makeText(getContext(), "Nhập sai định dạng!", Toast.LENGTH_SHORT).show();
+                isCheck = false;
+            }
+            if(!isEmail(strEmail)){
+                Toast.makeText(getContext(), "Nhập sai định dạng email !", Toast.LENGTH_SHORT).show();
+                isCheck = false;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e(TAG, "validateFrom: ERROR");
             isCheck = false;
         }
         return isCheck;

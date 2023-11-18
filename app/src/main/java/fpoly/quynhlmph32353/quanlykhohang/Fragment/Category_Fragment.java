@@ -43,6 +43,10 @@ public class Category_Fragment extends Fragment {
     private Category_Adapter categoryAdapter;
     private ArrayList<Category> list = new ArrayList<>();
 
+    private boolean isString(String str) {
+        return str.matches("[a-z A-Z 0-9]+");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -111,9 +115,9 @@ public class Category_Fragment extends Fragment {
                 }
             }
             if (type == 1) {
-                if(name.isEmpty() || describe.isEmpty()){
+                if (name.isEmpty() || describe.isEmpty()) {
                     Toast.makeText(getContext(), "Không được bỏ trống", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     category.setCategory_name(name);
                     category.setDescribe(describe);
                     if (imageUri != null) {
@@ -139,8 +143,17 @@ public class Category_Fragment extends Fragment {
 
     private boolean validateForm(String name, String describe, Uri imgUri) {
         boolean isCheck = true;
-        if (name.isEmpty() || describe.isEmpty() || imgUri == null) {
-            Toast.makeText(getContext(), "Không được bỏ trống", Toast.LENGTH_SHORT).show();
+        try {
+            if (name.isEmpty() || describe.isEmpty() || imgUri == null) {
+                Toast.makeText(getContext(), "Không được bỏ trống", Toast.LENGTH_SHORT).show();
+                isCheck = false;
+            }
+            if (!isString(name) || !isString(describe)) {
+                Toast.makeText(getContext(), "Nhập sai định dạng", Toast.LENGTH_SHORT).show();
+                isCheck = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             isCheck = false;
         }
         return isCheck;

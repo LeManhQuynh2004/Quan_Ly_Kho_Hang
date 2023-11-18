@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,15 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import fpoly.quynhlmph32353.quanlykhohang.Adapter.Details_Adapter;
 import fpoly.quynhlmph32353.quanlykhohang.Adapter.Invoice_Adapter;
+import fpoly.quynhlmph32353.quanlykhohang.Adapter.Product_Spinner;
+import fpoly.quynhlmph32353.quanlykhohang.Dao.DetailsDao;
 import fpoly.quynhlmph32353.quanlykhohang.Dao.InvoiceDao;
+import fpoly.quynhlmph32353.quanlykhohang.Dao.ProductDao;
 import fpoly.quynhlmph32353.quanlykhohang.ItemClickListener;
 import fpoly.quynhlmph32353.quanlykhohang.Model.Invoice;
+import fpoly.quynhlmph32353.quanlykhohang.Model.Invoice_details;
 import fpoly.quynhlmph32353.quanlykhohang.Model.Product;
 import fpoly.quynhlmph32353.quanlykhohang.R;
 
@@ -35,7 +41,6 @@ public class Invoice_Fragment extends Fragment {
     RecyclerView recyclerView_output;
     ArrayList<Invoice> list_Input = new ArrayList();
     ArrayList<Invoice> list_Output = new ArrayList();
-
     ArrayList<Invoice> list = new ArrayList<>();
     Invoice_Adapter invoiceAdapter_input,invoiceAdapter_output,invoiceAdapter;
     InvoiceDao invoiceDao;
@@ -43,6 +48,8 @@ public class Invoice_Fragment extends Fragment {
     Spinner spinner_invoice;
     int position;
     String value;
+
+    public static final String TAG = "Invoice_Fragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,14 +73,17 @@ public class Invoice_Fragment extends Fragment {
         invoiceAdapter_input.setItemClickListener(new ItemClickListener() {
             @Override
             public void UpdateItem(int position) {
-                Invoice invoice = list.get(position);
+                Invoice invoice = list_Input.get(position);
+                Log.e(TAG, "UpdateItem: "+list_Input.size());
+                Log.e(TAG, "UpdateItem: "+list_Output.get(position).getInvoice_id());
                 showAddOrUpdateDialog(1,invoice);
             }
         });
         invoiceAdapter_output.setItemClickListener(new ItemClickListener() {
             @Override
             public void UpdateItem(int position) {
-                Invoice invoice = list.get(position);
+                Invoice invoice = list_Output.get(position);
+                Log.e(TAG, "UpdateItem: "+list_Output.get(position).getInvoice_id());
                 showAddOrUpdateDialog(1,invoice);
             }
         });
@@ -92,7 +102,7 @@ public class Invoice_Fragment extends Fragment {
         ed_number = dialogView.findViewById(R.id.ed_invoice_number_dialog);
         ed_date = dialogView.findViewById(R.id.ed_create_date_dialog);
         spinner_invoice = dialogView.findViewById(R.id.Spinner_invoice_type_dialog);
-
+        //Create spinner invoice_type
         ArrayList<String> listString = new ArrayList<>();
         listString.add("Phiếu nhập");
         listString.add("Phiếu xuất");
@@ -157,7 +167,7 @@ public class Invoice_Fragment extends Fragment {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
-    private void updateAdapters() {
+    public void updateAdapters() {
         list.clear();
         list.addAll(invoiceDao.SelectAll());
         list_Output.clear();

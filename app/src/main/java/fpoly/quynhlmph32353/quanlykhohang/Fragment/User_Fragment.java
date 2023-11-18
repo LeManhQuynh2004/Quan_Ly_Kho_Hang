@@ -31,6 +31,7 @@ public class User_Fragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_user, container, false);
         txt_username = view.findViewById(R.id.username_user);
+        //SharedPreferences
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("LIST_USER", getContext().MODE_PRIVATE);
         String username = sharedPreferences.getString("USERNAME", "");
         userDao = new UserDao(getContext());
@@ -49,6 +50,9 @@ public class User_Fragment extends Fragment {
         });
         view.findViewById(R.id.bt_Thoat).setOnClickListener(view1 -> {
             requireActivity().finish();
+        });
+        view.findViewById(R.id.bt_doanhThu).setOnClickListener(view1 -> {
+            ShowItem(new DoanhThuFragment());
         });
         return view;
     }

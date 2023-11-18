@@ -40,8 +40,6 @@ public class Category_Spinner extends BaseAdapter {
         TextView txt_maLoai;
         TextView txt_tenSach;
     }
-
-
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         TheLoaiViewHolder viewHolder;

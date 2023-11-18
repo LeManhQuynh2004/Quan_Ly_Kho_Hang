@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -55,6 +58,7 @@ public class Products_Fragment extends Fragment {
     int selectedPosition;
     int category_id;
 
+    public static final String TAG = "Product_Fragment";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -153,6 +157,7 @@ public class Products_Fragment extends Fragment {
                     productNew.setProduct_price(Integer.parseInt(price));
                     productNew.setDescribe(describe);
                     productNew.setImage(imagePath);
+                    Log.d(TAG, "showAddOrUpdateDialog: "+imagePath);
                     productNew.setCategory_id(category_id);
                     if (productDao.insertData(productNew)) {
                         Toast.makeText(getContext(), R.string.add_success, Toast.LENGTH_SHORT).show();
@@ -203,7 +208,6 @@ public class Products_Fragment extends Fragment {
         }
         return isCheck;
     }
-
     private final ActivityResultLauncher<Intent> imagePickerLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {

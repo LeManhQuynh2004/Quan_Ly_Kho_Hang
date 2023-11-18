@@ -61,10 +61,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Remember Pass"
+        android:buttonTint="@null"
         android:textColor="#5DB075"
         android:textColorHint="#5DB075"
         android:textStyle="bold" />
-
     <Button
         android:id="@+id/bt_login"
         android:layout_marginTop="100dp"
